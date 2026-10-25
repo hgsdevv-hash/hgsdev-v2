@@ -34,9 +34,9 @@
 
   const lista = document.getElementById('lista');
   lista.innerHTML = PROJETOS.map((p, i) => `
-    <li class="card reveal${i === 0 ? ' big' : i === PROJETOS.length - 1 ? ' wide' : ''}">
+    <li class="card reveal">
       <div class="card-bar"><i style="background:${p.c}"></i><span>${p.nome}</span><a href="${p.url}" target="_blank" rel="noopener">${p.url.replace('https://', '').replace(/\/$/, '')}</a></div>
-      <div class="card-shot"><img src="img/proj/${p.id}-full.jpg" alt="Página do site ${p.nome}" loading="lazy" width="720" height="1350"></div>
+      <div class="card-shot"><img src="img/proj/${p.id}-full.jpg" alt="Página do site ${p.nome}" loading="lazy"></div>
       <div class="card-body">
         <div>
           <p class="card-kind">${p.tipo}</p>
@@ -178,7 +178,10 @@
     hud.classList.add('is-on', 'is-bump');
     somar(total + valor);
     setTimeout(() => hud.classList.remove('is-bump'), 300);
-    setTimeout(() => pickup.classList.remove('is-taken'), 2500);
+    // depois do dinheiro, aparece uma arminha girando no lugar, e então o dinheiro volta
+    setTimeout(() => pickup.classList.add('is-gun'), 450);
+    setTimeout(() => pickup.classList.remove('is-gun'), 2600);
+    setTimeout(() => pickup.classList.remove('is-taken'), 2900);
   });
 
   // abertura: sai depois do desenho, ou na hora se a pessoa prefere menos movimento
