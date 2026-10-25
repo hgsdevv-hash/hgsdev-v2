@@ -148,6 +148,37 @@
   if (reduz) letras.forEach(l => l.el.style.setProperty('--on', 1));
   else { medir(); requestAnimationFrame(quadro); }
 
+  /* ---------- pistola 3D: cada peça é um bloco com 6 faces sombreadas ---------- */
+  // [largura, altura, profundidade, x, y, giro em graus, cor, classe extra] — x/y são o centro da peça, cano para a direita
+  const PECAS = [
+    [50, 9, 8, 2, -8, 0, '#40454d', 'slide'],   // ferrolho
+    [6, 4, 3, 24, -8, 0, '#16181b', 'muzzle'],  // boca do cano
+    [3, 2.5, 3, 23, -13.5, 0, '#2a2d32'],       // massa de mira
+    [4, 2.5, 5, -19, -13.5, 0, '#2a2d32'],      // alça de mira
+    [32, 6, 7, -5, -0.5, 0, '#2b2e33'],         // armação
+    [12, 21, 8, -15, 11, 14, '#26282c', 'grip'],// empunhadura
+    [11, 2, 4, -1.5, 9, 0, '#1d1f22'],          // guarda-mato (fundo)
+    [2, 6, 4, 4.5, 5.5, 0, '#1d1f22'],          // guarda-mato (frente)
+    [2, 5, 2, -2.5, 4.5, 10, '#55595f']         // gatilho
+  ];
+  const gun = document.querySelector('.gun3d');
+  PECAS.forEach(([w, h, d, x, y, rot, cor, extra]) => {
+    const bloco = document.createElement('span');
+    bloco.className = 'gun-part' + (extra ? ' ' + extra : '');
+    bloco.style.cssText = `width:${w}px;height:${h}px;margin:${-h / 2}px 0 0 ${-w / 2}px;transform:translate3d(${x}px,${y}px,0) rotateZ(${rot}deg);--c:${cor}`;
+    const faces = [
+      ['fr', w, h, `translateZ(${d / 2}px)`],
+      ['bk', w, h, `rotateY(180deg) translateZ(${d / 2}px)`],
+      ['rt', d, h, `rotateY(90deg) translateZ(${w / 2}px)`],
+      ['lt', d, h, `rotateY(-90deg) translateZ(${w / 2}px)`],
+      ['tp', w, d, `rotateX(90deg) translateZ(${h / 2}px)`],
+      ['bt', w, d, `rotateX(-90deg) translateZ(${h / 2}px)`]
+    ];
+    bloco.innerHTML = faces.map(([f, fw, fh, t]) =>
+      `<i class="f ${f}" style="width:${fw}px;height:${fh}px;margin:${-fh / 2}px 0 0 ${-fw / 2}px;transform:${t}"></i>`).join('');
+    gun.appendChild(bloco);
+  });
+
   /* ---------- pickup de dinheiro: pega, soma no HUD e reaparece ---------- */
   const pickup = document.querySelector('.pickup');
   const hud = document.querySelector('.hud');

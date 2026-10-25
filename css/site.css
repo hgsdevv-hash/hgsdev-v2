@@ -101,8 +101,20 @@ body.is-ready .intro { opacity: 0; visibility: hidden; }
 .pickup::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, rgba(47, 211, 107, .4), transparent 65%); animation: pulse 1.4s ease-in-out infinite alternate; }
 .pickup-shadow { position: absolute; bottom: 6px; width: 46px; height: 9px; border-radius: 50%; background: radial-gradient(ellipse, rgba(47, 211, 107, .95), rgba(47, 211, 107, .35) 55%, transparent 75%); box-shadow: 0 0 18px 4px rgba(47, 211, 107, .45); filter: blur(1px); animation: shadow 1.4s ease-in-out infinite alternate; }
 .pickup.is-taken .pickup-spin { animation: grab .45s var(--ease) forwards; }
-.gun-spin { position: absolute; width: 52px; height: 33px; opacity: 0; transform: scale(.2); pointer-events: none; transition: opacity .25s, transform .35s var(--ease); }
-.gun-spin svg { width: 100%; height: 100%; display: block; animation: spin 1.6s linear infinite; filter: drop-shadow(0 0 6px rgba(47, 211, 107, .6)); }
+.gun-spin { position: absolute; left: 50%; top: 50%; width: 0; height: 0; opacity: 0; transform: scale(.2); transform-style: preserve-3d; pointer-events: none; transition: opacity .25s, transform .35s var(--ease); }
+.gun3d { position: absolute; transform-style: preserve-3d; animation: gunspin 2s linear infinite; }
+.gun-part { position: absolute; left: 0; top: 0; transform-style: preserve-3d; }
+.gun-part .f { position: absolute; left: 50%; top: 50%; background: var(--c); backface-visibility: hidden; }
+/* luz vindo de cima: topo claro, laterais médias, base escura */
+.gun-part .tp { filter: brightness(1.7); }
+.gun-part .bt { filter: brightness(.55); }
+.gun-part .rt, .gun-part .lt { filter: brightness(.8); }
+.gun-part .bk { filter: brightness(.9); }
+.slide .fr, .slide .bk { background: linear-gradient(180deg, #5a6069 0 18%, var(--c) 18% 100%); }
+.slide .fr::after, .slide .bk::after { content: ""; position: absolute; left: 6%; width: 22%; top: 30%; bottom: 20%; background: repeating-linear-gradient(90deg, rgba(0, 0, 0, .45) 0 1px, transparent 1px 3px); }
+.grip .fr, .grip .bk { background: radial-gradient(circle, rgba(0, 0, 0, .35) .6px, transparent 1px) 0 0 / 3px 3px, var(--c); }
+.muzzle .rt { background: radial-gradient(circle, #000 0 1.2px, #16181b 1.4px); filter: none; }
+@keyframes gunspin { from { transform: rotateX(-16deg) rotateY(0); } to { transform: rotateX(-16deg) rotateY(360deg); } }
 .pickup.is-gun .gun-spin { opacity: 1; transform: scale(1); animation: bob 1.4s ease-in-out infinite alternate; }
 .plus { position: fixed; z-index: 70; font: 400 24px var(--impact); color: var(--money); text-shadow: 2px 2px 0 #000; pointer-events: none; animation: plus 1s var(--ease) forwards; }
 @keyframes spin { to { transform: rotateY(360deg); } }
@@ -236,6 +248,6 @@ body.is-ready .intro { opacity: 0; visibility: hidden; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .intro-logo text { fill: var(--ink); stroke-dashoffset: 0; }
   .pickup-spin { transform: rotateY(25deg); }
-  .gun-spin svg { animation: none; }
+  .gun3d { animation: none; transform: rotateX(-16deg) rotateY(30deg); }
   .card:hover .card-shot img { transform: none; }
 }
